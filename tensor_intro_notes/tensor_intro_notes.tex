@@ -17,9 +17,127 @@
 \tableofcontents
 \pagebreak
 
+\chapter{Tensor Definitions}
+\dfn{Tensors as multidimensional arrays}{
+
+Examples:
+\begin{enumerate}
+	\item Rank 0 Tensor: \textbf{Scalar}
+		$$ [4] \text{ or } 4 $$ 
+	\item Rank 1 Tensor: \textbf{Vector}
+		$$
+		\begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix} 
+		$$ 
+
+	\item Rank 2 Tensor: \textbf{2D-Matrix}
+$$
+		\begin{bmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix} 
+$$ 
+\item Rank 3 Tensor: \textbf{3D-Matrix} "Cube" of values
+
+\end{enumerate}
+
+Although tensors can be \emph{represented} as matrices/arrays, this definition doesn't describe what tensors \emph{actually} are since this definition doesn't explain the geometric meaning of tensors.
+}
+
+\dfn{Tensors as objects invariant under a change in coordinates}{
+	\begin{enumerate}
+		\item Tensors have \textbf{components} that change in a \textbf{predictable} way when the coordinates are changed
+		\item Vectors are \textbf{invariant}, but vector components are not
+		\item Example of something invariant under coordinate transformation: length
+		\item Converting tensor components from one coordinate system to another is called a \textbf{Forward Transformation}, while doing the reverse if \textbf{Backwards Transformation}
+	\end{enumerate}
+}
+
+\dfn{Tensors as a combination of vectors and convectors combined using the tensor product}{Best definition, but a bit abstract.}
+
+\dfn{Tensors as partial derivatives and gradients that transform with the Jacobean matrix}{}
+
 \chapter{Forward and Backwards Transformations}
+Old Basis:
+$$
+\left\{ \vec{e_1}, \vec{e_2} \right\} 
+$$ 
+New Basis:
+$$
+\left\{ \tilde{\vec{e_1}}, \tilde{\vec{e_2}} \right\} 
+$$ 
+
+\section{Forward Transformation}
+Convert from the old basis to the new basis:
+
+$$ \tilde{\vec{e_1}} = c_1 \vec{e_1} + c_2 \vec{e_2} $$
+$$ \tilde{\vec{e_2}} = c_3 \vec{e_1} + c_4 \vec{e_2} $$
+
+
+where $c_1, c_2, c_3,\text{ and } c_4$ are scalar constants.
+
+We can rewrite the above linear equations in matrix form by defining a \textbf{forward transformation matrix}, $F$
+
+$$ F = \begin{bmatrix} c_1 & c_3 \\ c_2 & c_4 \end{bmatrix}  $$ 
+
+$$ \begin{bmatrix} \tilde{\vec{e_1}} & \tilde{\vec{e_2}} \end{bmatrix} = \begin{bmatrix} \vec{e_1} & \vec{e_2} \end{bmatrix} F = \begin{bmatrix} \vec{e_1} & \vec{e_2} \end{bmatrix} \begin{bmatrix} c_1 & c_3 \\ c_2 & c_4 \end{bmatrix}  $$ 
+
+Note that the $F$ matrix is flipped along the diagonal (transposed) from what we'd get if we multiplied the forward transformation matrix before the old basis.
+
+$$ \tilde{F} = F^T = \begin{bmatrix} c_1 & c_2 \\ c_3 & c_4 \end{bmatrix}  $$ 
+$$ \begin{bmatrix} \tilde{\vec{e_1}} \\ \tilde{\vec{e_2}} \end{bmatrix} = 	\tilde{F} \begin{bmatrix} \vec{e_1} \\ \vec{e_2} \end{bmatrix} = \begin{bmatrix} c_1 & c_2 \\ c_3 & c_4 \end{bmatrix}\begin{bmatrix} \vec{e_1} \\ \vec{e_2} \end{bmatrix}   $$ 
+\section{Backwards Transformation}
+Similarly, we can convert from the new basis to the old basis with a \textbf{backwards transformation}
+
+$$ \vec{e_1} = a_1 \tilde{\vec{e_1}} + a_2 \tilde{\vec{e_2}} $$
+$$ \vec{e_2} = a_3 \tilde{\vec{e_1}} + a_4 \tilde{\vec{e_2}} $$
+
+
+where $a_1, a_2, a_3,\text{ and } a_4$ are scalar constants.
+
+Rewrite in terms of the backwards transformation matrix, $B$
+$$ B = \begin{bmatrix} a_1 & a_3 \\ a_2 & a_4 \end{bmatrix}  $$ 
+$$ \begin{bmatrix} \vec{e_1} & \vec{e_2} \end{bmatrix} = \begin{bmatrix} \tilde{\vec{e_1}} & \tilde{\vec{e_2}} \end{bmatrix} B = \begin{bmatrix} \tilde{\vec{e_1}} & \tilde{\vec{e_2}} \end{bmatrix} \begin{bmatrix} a_1 & a_3 \\ a_2 & a_4 \end{bmatrix} $$ 
+
+If we multiply $F$ and $B$ we get the identity matrix:
+$$ BF = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}  $$ 
+
+Thus one is the inverse of the other:
+$$ B = F^{-1} $$ 
+
+\section{Generalizing to N-Dimensions}
+We can generalize to $n$ dimensions 
+
+$$ F = \begin{bmatrix} F_{11} & F_{12} & \ldots & F_{1n} \\ F_{21} & F_{22} & \ldots & F_{2n} \\ \vdots & \vdots & \vdots & \vdots \\ F_{n1} & F_{n2} & \ldots & F_{nn} \end{bmatrix}$$ 
+$$ \tilde{\vec{e_1}} = F_{11}\vec{e_1} + F_{21}\vec{e_2} + \ldots + F_{n1} \vec{e_n} $$ 
+$$ \tilde{\vec{e_2}} = F_{12}\vec{e_1} + F_{22}\vec{e_2} + \ldots + F_{n2} \vec{e_n} $$ 
+$$ \vdots $$ 
+$$ \tilde{\vec{e_n}} = F_{1n} \vec{e_1} + F_{2n}\vec{e_2} + \ldots + F_{nn} \vec{e_n} $$ 
+
+This can be written more simply as:
+$$ \tilde{\vec{e_i}} = \sum_{j=1}^{n} F_{ji} \vec{e_j}$$ 
+
+Similarly we have
+$$ \vec{e_i} = \sum_{j=1}^{n} B_{ji} \tilde{\vec{e_j}}$$ 
+
+We still have that $F$ and $B$ are inverses
+$$ FB = \begin{bmatrix} 1 & 0 & 0 & \ldots \\ 0 & 1& 0 & \ldots \\ 0 & 0 & 1 &\ldots \\ \vdots \\ 0 & 0 & \ldots&1 \end{bmatrix}  $$ 
+
+\begin{myproof}
+$$ \vec{e_i} = \sum_{j=1}^{n} B_{ji} \tilde{\vec{e_j}}$$ 
+$$ \vec{e_i} = \sum_{j=1}^{n} B_{ji} \left( \sum_{k=1}^{n} F_{kj} \vec{e_k} \right)= \sum_{j=1}^{n}  \left( \sum_{k=1}^{n} F_{kj} B_{ji}\vec{e_k} \right) =  \sum_{k=1}^{n}  \left( \sum_{j=1}^{n} F_{kj} B_{ji}\vec{e_k} \right)$$ 
+
+Note that we want $\vec{e_1} = \vec{e_1}$, $\vec{e_2} = \vec{e_2}$, etc.
+so that implies that
+$$ 
+\sum_j F_{kj}  B_{ji} = \delta_{ki} = 
+\begin{cases}
+	 0 & i \neq k \\
+	 1 & i = k
+\end{cases} 
+$$ 
+
+which means that the matrix $FB$ has $1$'s on the diagonals and $0$'s elsewhere (identity matrix).
+
+\end{myproof}
 
 \chapter{Vector Definition}
-
+A vector is an example of a tensor.
 
 \end{document}
