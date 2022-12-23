@@ -140,4 +140,66 @@ which means that the matrix $FB$ has $1$'s on the diagonals and $0$'s elsewhere 
 \chapter{Vector Definition}
 A vector is an example of a tensor.
 
+\dfn{Vector Definition}
+{
+	\begin{enumerate}
+		\item Naive definition: Array of numbers
+			\begin{itemize}
+				\item The list of numbers are the \emph{components} of the vector, not the vector itself. Remember that vectors are invariant under a coordinate transformation while the components are not.
+			\end{itemize}
+		\item Arrow in space
+			\begin{itemize}
+				\item A bit better than the above definition
+				\item Not all vectors can be visualized as arrows (like functions!)
+				\item An arrow is just a special type of vector: A \emph{Euclidean vector}
+			\end{itemize}
+		\item Member of a Vector Space
+	\end{enumerate}
+
+}
+\dfn{Vector Space}{
+	$$ \left(\underbrace{V}_{\text{Set of vectors}},\underbrace{S}_{\text{Set of Scalars}}, \underbrace{+}_{\text{Vector addition}}, \underbrace{\cdot}_{Vector scaling operator} \right) $$
+	Vectors can be
+	\begin{itemize}
+		\item added together $+$
+		\item Multiplied by a scalar $\cdot$
+	\end{itemize}
+}
+
+
+\chapter{Vector Transformation Rules}
+To convert the vector components from the old basis $\left\{ \vec{e_1}, \vec{e_2} \right\} $ to components in the new basis, $\left\{ \tilde{\vec{e_1}}, \tilde{\vec{e_2}} \right\} $, we apply the \emph{backwards} transformation on the old basis components:
+
+Vector, $v$, in the old basis:
+$$ \vec{v} = v_1 \vec{e_1} + v_2 \vec{e_2} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix}_{\vec{e_i}} $$ 
+In the new basis
+$$ \vec{v} = \tilde{v_1} \tilde{\vec{e_1}} + \tilde{v_2} \tilde{\vec{e_2}} = \begin{bmatrix} \tilde{v_1} \\ \tilde{v_2} \end{bmatrix}_{\tilde{\vec{e_i}}} $$ 
+where $b_1, b_2, b_3 \text{ and }, b_4$ are scalars.
+
+Converting vector components in the old basis to new
+$$ B\begin{bmatrix} v_1 \\ v_2 \end{bmatrix}_{\vec{e_i}} = \begin{bmatrix} \tilde{v_1} \\ \tilde{v_2} \end{bmatrix}_{\tilde{\vec{e_i}}}   $$ 
+
+When the basis vectors get larger, the "measuring stick" gets bigger, which means the components of the vector get smaller so that the length remains the same.
+
+Similarly, when the basis vectors are rotated clockwise, from the perspective of the vector, the components have to be rotated counterclockwise to maintain the same orientation in space.
+
+Since the vector components transform \emph{contrary} to the basis vectors, we say that the vector components are \emph{contravariant}.
+
+\section{Generalization to $n$-dimensions}
+\begin{myproof}
+	$$ \vec{v} = \sum_{i=1}^{n} v_i \vec{e_i} = \sum_{j=1}^{n} \tilde{v_j}\tilde{\vec{e_j}}$$
+	$$ \widetilde{\vec{e_j}} = \sum_{i=1}^{n} F_{ij} \vec{e_i} $$ 
+	$$ \vec{e_j} = \sum_{i=1}^{n} B_{ij} \widetilde{\vec{e_i}} $$ 
+	$$ \vec{v} =  \sum_{j=1}^{n} \tilde{v_j}\tilde{\vec{e_j}} =  \sum_{j=1}^{n} \tilde{v_j} \left( \sum_{i=1}^{n} F_{ij} \vec{e_i} \right) = \sum_{i=1}^{n} \left(\sum_{j=1}^{n} F_{ij}  \widetilde{v_j}\vec{e_i}\right) $$
+	$$ \vec{v_i} = \sum_{j=1}^{n} F_{ij} \widetilde{\vec{v_j}} $$ 
+
+This proves that converting the vector components in the new basis to the old basis requires the forward transformation
+\end{myproof}
+
+\section{Notation}
+Since the vector components are contravariant (do the opposite of the basis vectors), we write the index for the vector components as a superscript:
+$$ \vec{v} = \sum_{i=1}^{n} v^i \vec{e_i}  = \sum_{i=1}^{n} \widetilde{v^i} \widetilde{\vec{e_i}}$$ 
+
+\chapter{What are covectors?}
+
 \end{document}
