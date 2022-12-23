@@ -17,6 +17,8 @@
 \tableofcontents
 \pagebreak
 
+% Start counter from 0
+\setcounter{chapter}{-1}
 \chapter{Tensor Definitions}
 Based on the video series by \href{https://youtube.com/playlist?list=PLJHszsWbB6hrkmmq57lX8BV-o-YIOFsiG}{eigenchris}
 
@@ -203,5 +205,19 @@ Since the vector components are contravariant (do the opposite of the basis vect
 $$ \vec{v} = \sum_{i=1}^{n} v^i \vec{e_i}  = \sum_{i=1}^{n} \widetilde{v^i} \widetilde{\vec{e_i}}$$ 
 
 \chapter{What are covectors?}
+Covectors are our second example of a tensor.
+
+You can think of covectors as row vector. Row vectors are not simply just column vectors flipped on its side (only true in \emph{orthonormal basis}).
+
+Covectors/Row vectors can both be thought of as functions that act on a vector:
+$$ \alpha : V \to \R $$ 
+
+Covectors exhibit linearity:
+$$ \alpha\left( \vec{v} + \vec{w}\right) = \alpha(\vec{v}) + \alpha\left( \vec{w} \right)  $$ 
+$$\alpha(n\vec{v}) = n \alpha(\vec{v})$$ 
+
+Covectors are also elements of a vector space, called the dual vector space, $V^*$
+$$ \left(n \alpha  \right)(\vec{v}) = n\alpha(\vec{v})  $$ 
+$$ \left( \beta + \alpha \right) (\vec{v}) = \beta(\vec{v}) + \alpha(\vec{v})  $$ 
 
 \end{document}
