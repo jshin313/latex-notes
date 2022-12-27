@@ -170,6 +170,8 @@ A vector is an example of a tensor.
 	\end{itemize}
 }
 
+For these notes, when we say \emph{vector}, we mean a euclidean vector.
+
 
 \chapter{Vector Transformation Rules}
 To convert the vector components from the old basis $\left\{ \vec{e_1}, \vec{e_2} \right\} $ to components in the new basis, $\left\{ \tilde{\vec{e_1}}, \tilde{\vec{e_2}} \right\} $, we apply the \emph{backwards} transformation on the old basis components:
@@ -219,5 +221,75 @@ $$\alpha(n\vec{v}) = n \alpha(\vec{v})$$
 Covectors are also elements of a vector space, called the dual vector space, $V^*$
 $$ \left(n \alpha  \right)(\vec{v}) = n\alpha(\vec{v})  $$ 
 $$ \left( \beta + \alpha \right) (\vec{v}) = \beta(\vec{v}) + \alpha(\vec{v})  $$ 
+where $\alpha$ is the covector
+
+\section{Visualizing Covectors}
+Take the 2-D case:
+
+$$ \alpha = \begin{bmatrix} 2 & 1 \end{bmatrix}  $$ 
+$$ \alpha (\vec{v}) = \begin{bmatrix} 2 & 1 \end{bmatrix} \left( \begin{bmatrix} x \\ y \end{bmatrix}  \right)  = 2x + 1y$$ 
+
+We can visualize the covector by looking at the isolines (i.e. where $\alpha = k$, with $k$ as a constant)
+
+$$ 2x + 1y = 0 $$ 
+$$ 2x + 1y = 1 $$ 
+$$ 2x + 1y = 2 $$ 
+$$ \vdots$$ 
+
+2D Covectors form a "stack" of lines. Graphically, the value of $\alpha$ acting on $\vec{v}$ is the number of isolines that $\vec{v}$ pierces
+
+\chapter{Covector Components}
+Like vectors, covectors are invariant, but their components are not.
+
+Covectors form a vector space, $V^*$, and are not part of $V$, so we need new basis vectors, $\eps^1$ and $\eps^2$: $V \to \R$. They are defined as follows:
+
+$$ \eps^1\left( \vec{e_1} \right) =1 $$ 
+$$ \eps^2\left( \vec{e_1} \right) =0 $$ 
+$$ \eps^1\left( \vec{e_2} \right) =0 $$ 
+$$ \eps^2\left( \vec{e_2} \right) =1 $$ 
+
+or simply
+$$ \eps^i\left( \vec{e_j} \right) = \delta_{ij} $$ 
+
+Let's see what the two covector bases looks like when acting on a vector, $\vec{v}$
+
+$$ \eps^1\left(\vec{v} \right) = \eps^1 \left( v^1 \vec{e_1} + v^2 \vec{e_2} \right)   $$ 
+
+Since covectors are linear:
+$$  = \eps^1 \left( v^1 \vec{e_1} + v^2 \vec{e_2} \right) = v^1 \eps^1 \left( \vec{e_1} \right) + v^2 \eps^1 \left( \vec{e_2} \right) = v^1 \cdot 1 + v^2 \cdot 0 = v^1 $$ 
+
+Similarly, 
+$$ \eps^2\left( \vec{v} \right)  = v^2 $$ 
+
+Now consider a general covector, $\alpha$ acting on $\vec{v}$
+
+$$ \alpha\left( \vec{v} \right) = \alpha \left( v^1 \vec{e_1} + v^2 \vec{e_2} \right) = v^1 \alpha(e_1) + v^2 \alpha (e_2)  $$
+
+Using the definitions of $\eps^1(\vec{v}) = v^1$ and $\eps^2 (\vec{v}) = v^2$ gives:
+$$ \alpha(\vec{v}) = \eps^1 \left( \vec{v} \right)\cdot \alpha\left( e_1 \right)  + \eps^2\left( \vec{v} \right) \cdot \alpha \left( e_2 \right)    $$
+
+Let $\alpha_1 = \alpha(\vec{e_1})$ and $\alpha_2 = \alpha(\vec{e_2})$
+
+$$ \alpha\left( \vec{v} \right) = \eps^1 \left( \vec{v} \right) a_1 + \eps^2 \left( \vec{v} \right) a_2  = \left( a_1 \eps^1 + a_2 \eps^2 \right)\left( \vec{v} \right)  $$ 
+$$ \implies \alpha = \alpha_1 \eps^1 + \alpha_2 \eps^2$$ 
+
+We see that we can rewrite any generic covector, $\alpha$, as a linear combination of $\eps^1$ and $\eps^2$. Thus the covectors $\eps^1$ and $\eps^2$ form a \emph{dual basis}.
+
+To summarize, with any set of basis vectors ($\vec{e_1}$ and $\vec{e_2}$), we can define basis convectors ($\eps^1$ and $\eps^2$). Then we can represent any convector as a linear combination of these basis convectors.
+
+To convert between components of a convector from an old dual basis to a new dual basis, you use the \emph{Forward matrix}
+
+$$ \begin{bmatrix} \alpha_1 & \alpha_2 \end{bmatrix}_{\eps^i} F = \begin{bmatrix} \widetilde{\alpha_1} & \widetilde{\alpha_2} \end{bmatrix}_{\widetilde{\eps^i}}   $$ 
+
+
+Converting from the new basis to the old basis requires the \emph{Backwards matrix}:
+$$ \begin{bmatrix} \widetilde{\alpha_1} & \widetilde{\alpha_2} \end{bmatrix}_{\widetilde{\eps^i}} B = \begin{bmatrix} \alpha_1 & \alpha_2 \end{bmatrix}_{\eps^i}   $$ 
+
+Note this is the opposite compared to what happens for a change of basis for normal vector components.
+
+This shows that the vector components are not always the same as convector components. See the \href{https://youtu.be/rG2q77qunSw?t=512}{agency's} video for examples.
+
+\chapter{Convector Transformation Rules}
+
 
 \end{document}
