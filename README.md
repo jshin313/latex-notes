@@ -3,7 +3,7 @@
 * Template from https://github.com/SeniorMars/dotfiles/tree/master/latex_template
 * `\chapter{Chapter Name}`
 * `\section{Section Name}`
-* `\dfn{Definition of some concept}`
+* `\dfn{DFN Title}{Definition of some concept}`
 * `\qs{Question Title}{Description of question}`
 * `\sol`
 * `\clm{Claim Title}{}{Claim Body} `
