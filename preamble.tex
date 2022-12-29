@@ -65,6 +65,8 @@
 \definecolor{mytheoremfr}{HTML}{00007B}
 \definecolor{mylenmabg}{HTML}{FFFAF8}
 \definecolor{mylenmafr}{HTML}{983b0f}
+\definecolor{mysummbg}{HTML}{f2fbfc}
+\definecolor{mysummfr}{HTML}{191971}
 \definecolor{mypropbg}{HTML}{f2fbfc}
 \definecolor{mypropfr}{HTML}{191971}
 \definecolor{myexamplebg}{HTML}{F2FBF8}
@@ -236,7 +238,6 @@
 %================================
 % PROPOSITION
 %================================
-
 \tcbuselibrary{theorems,skins,hooks}
 \newtcbtheorem[number within=section]{Prop}{Proposition}
 {%
@@ -583,6 +584,31 @@
 	#1,
 }
 
+%================================
+% Summary
+%================================
+\makeatletter
+\tcbuselibrary{theorems,skins,hooks}
+\newtcbtheorem{Summ}{Summary}
+{%
+	theorem name,
+	enhanced,
+	breakable,
+	colback = mysummbg,
+	frame hidden,
+	boxrule = 0sp,
+	borderline west = {2pt}{0pt}{mysummfr},
+	sharp corners,
+	detach title,
+	before upper = \tcbtitle\par\smallskip,
+	coltitle = mysummfr,
+	fonttitle = \bfseries\sffamily,
+	description font = \mdseries,
+	separator sign none,
+	segmentation style={solid, mysummfr},
+}
+{th}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SELF MADE COMMANDS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -592,6 +618,7 @@
 \newcommand{\cor}[2]{\begin{Corollary}{#1}{}#2\end{Corollary}}
 \newcommand{\mlenma}[2]{\begin{Lenma}{#1}{}#2\end{Lenma}}
 \newcommand{\mprop}[2]{\begin{Prop}{#1}{}#2\end{Prop}}
+\newcommand{\summ}[2]{\begin{Summ}{#1}{}#2\end{Summ}}
 \newcommand{\clm}[3]{\begin{claim}{#1}{#2}#3\end{claim}}
 \newcommand{\wc}[2]{\begin{wconc}{#1}{}\setlength{\parindent}{1cm}#2\end{wconc}}
 \newcommand{\thmcon}[1]{\begin{Theoremcon}{#1}\end{Theoremcon}}
