@@ -12,6 +12,7 @@
 * `\nt{This is a note}`
 * `\cor{Corollary Title}{By the result of the proof, we can then show...}`
 * `\mlenma{Lemma Title}{Suppose $\vec{v_1}, \dots, \vec{v_n} \in \RR[n]$ is subspace of $\RR^n$.}`
+* `\Summary{Summary Title}{Body}`
 * `\mprop{Proposition Title}{Proposition Body}`
 
 ```
