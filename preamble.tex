@@ -5,6 +5,7 @@
 
 \usepackage[tmargin=2cm,rmargin=1in,lmargin=1in,margin=0.85in,bmargin=2cm,footskip=.2in]{geometry}
 \usepackage{amsmath,amsfonts,amsthm,amssymb,mathtools}
+\usepackage{tensor}
 \usepackage[varbb]{newpxmath}
 \usepackage{xfrac}
 \usepackage[makeroom]{cancel}
@@ -776,3 +777,12 @@
 	\@starttoc{toc}}
 \makeatother
 
+% Allow for adjusting line spacing for matrices
+% https://tex.stackexchange.com/a/14072 
+\makeatletter
+\renewcommand*\env@matrix[1][\arraystretch]{%
+  \edef\arraystretch{#1}%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{*\c@MaxMatrixCols c}}
+\makeatother
