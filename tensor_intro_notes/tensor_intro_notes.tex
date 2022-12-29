@@ -986,4 +986,77 @@ $$ T\left( x_1, x_2, \ldots, nx_i, \ldots, x_n \right) = n T\left( x_1, x_2, \ld
 $$ T\left( x_1, x_2, \ldots, x_i + y_i, \ldots, x_n \right) = T\left( x_1, x_2, \ldots, x_i, \ldots, x_n \right) + T\left( x_1, x_2, \ldots, y_i, \ldots, x_n \right) $$ 
 }
 
+\chapter{Raising/Lowering Indexes}
+We want a way to raise or lower indexes:
+
+$$ T_i \leftrightarrow T^i $$ 
+
+We want a correspondance between vectors in $V$ and $V^*$ (homomorphism). At first we might pair $\vec{e_i}$ with $\epsilon^i$
+$$ \vec{v} = v^1 \vec{e_1} + v^2 \vec{e^2} \ldots $$ 
+$$ \alpha = v^1 \epsilon^1 + v^2 \epsilon_2 \ldots $$ 
+However, this doesn't work when we do a change in basis. When we scale the basis vector by a constant, the covector basis scales in the opposite way, because basis vectors are covariant while basis covectors are contravariant.
+
+Introducing a basis was what made this not work, so the correct solution will not use a basis. We can take the dot product between a vector in $V$ and another vector to get an element of $V^*$
+$$ \vec{v} \cdot \_ \in V^*$$ 
+
+This is true since the above expression takes in one vector and outputs a scalar, just like a covector. The dot product is also linear:
+$$ \vec{v} \cdot \left( n \vec{a} \right) = n (\vec{v}\cdot \vec{a}) $$ 
+$$ \vec{v}\cdot \left( \vec{a} + \vec{b} \right)  = \vec{v} \cdot \vec{a} + \vec{v} \cdot \vec{b}$$ 
+
+If $\vec{v} \cdot \_\in V^*$, then we can represent it as a linear combination of dual basis vectors:
+$$ \vec{v} \cdot \_ = x_i \epsilon^i $$ 
+
+Remember that 
+$$ \vec{v}\cdot \vec{w} = g(\vec{v}, \vec{w}) = g_{ij}v^i w^i $$ 
+Similarly,
+$$ \vec{v}\cdot \_ = g(\vec{v}, \_) = g_{ik} \epsilon^i\epsilon^k\left( v^j \vec{e_j} \right) $$ 
+$$ = g_{ik} v^j \epsilon^i \delta_j^k = g_{ij} v^j \epsilon^i $$ 
+
+This means
+$$ x_i = g_{ij} v^j $$ 
+Note that the above equation allows us to convert between subscripts and superscripts using the metric tensor.
+
+\summ{}{
+	$$ \vec{v} = v^j \vec{e_j} = \widetilde{v^j} \widetilde{\vec{e_j}} \in V$$ 
+	$$ \vec{v} \cdot \_ = x_i \epsilon^i  = \widetilde{x_i} \widetilde{\epsilon_i} \in V^* $$ 
+	$$ x_i = g_{ij} v^j \qquad \widetilde{x_i} = \widetilde{g_{ij}} \widetilde{v^j} $$ 
+
+	$v^i \neq x_i$ in general. They are only equal when $g_{ij} = \delta_{ij}$, which is when we have an orthonormal coordinate system.
+}
+We usually think of the metric tensor as $g: V\times V \to \R$, but we have used it here as $g: V\to V^*$. Now we need to do the reverse and go from a covector to a vector. 
+
+ $$ g \in V^* \otimes V^* $$ 
+ $$ \mathfrak{g} \in V \otimes V $$ 
+
+ We can use the "inverse" metric tensor, $\mathfrak{g}: V^* \to V$, to find a homomorphism between a covector and a vector.
+
+ $$ \mathfrak{g}^{ki} g_{ij}  = \delta_{j}^{k}$$  
+
+ $$ x_i  = g_{ij}v^j $$ 
+ $$ \mathfrak{g}^{ki}x_i = \mathfrak{g}^{ki} g_{ij}v^j $$ 
+ $$ \mathfrak{g}^{ki}x_i = \delta_j^k v^j $$ 
+ $$ \mathfrak{g}^{ki} x_i = v^k $$ 
+
+ We can use the metric tensor (sometimes called the \emph{covariant metric tensor}) to lower indexes, while the inverse metric tensor (\emph{contravariant metric tensor}) can be used to lower raise indexes.
+
+\ex{Raising/Lowering}{
+
+	$$ Q \in V \otimes V^* \otimes V^* $$ 
+	$$ Q = Q\indices{^{i}_{jk}} \vec{e_i}\epsilon^j \epsilon^k $$  
+	$$Q'= Q\indices{^{i}_{jk}} \mathfrak{g}^{jx} \vec{e_i} \epsilon^j \epsilon^k = Q\indices{^{ix}_k} \vec{e_i} \epsilon^x \epsilon^k $$ 
+	$$ Q' \in V \otimes V \otimes V^* $$ 
+}
+
+When we convert between a vector, $\vec{v}$, to a covector, $x$ we have
+$$ x = g(\vec{v}, \_) $$ 
+$$ x_i = g_{ij} v^j  $$ 
+We can also use a different notation, $\flat$:
+$$ x = g(\vec{v}, \_)  = \flat \vec{v}$$ 
+
+Conversely, converting from a covector to a vector requires:
+$$ \vec{v} = \mathfrak{g}\left(x \right) $$ 
+$$ v^k = \mathfrak{g}_{ki} x_i $$ 
+$$ \vec{v} = \mathfrak{g}\left(x \right) = \sharp x $$ 
+
+
 \end{document}
