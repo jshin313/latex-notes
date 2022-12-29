@@ -3,6 +3,8 @@
 \input{../preamble}
 \input{../macros}
 \input{../letterfonts}
+\usepackage{caption} 
+\captionsetup[table]{skip=5pt}
 
 \title{\Huge{Intro to Tensors Notes}\\}
 \author{\huge{Jacob Shin}}
@@ -339,5 +341,649 @@ As expected, the covector components transform in the same way as euclidean basi
 	$$ \widetilde{\alpha_j} = \sum_{i=1}^{n} F_{ij}\alpha_i \qquad \alpha_j = \sum_{i=1}^{n} B_{ij} \widetilde{\alpha_i} \qquad\qquad \text{Covariant} $$ 
 
 }
-\end{document}
+\chapter{Linear Maps}
+\dfn{Array Definition}{
+	Matrices can be used to represent linear maps, just like how column vectors can be used to represent euclidean vectors and row vectors can be used to represent covectors.
 
+	Linear maps transform the input vectors, but they \emph{do not} transform basis vectors.
+}
+
+\dfn{Coordinate Definition}{
+	Linear maps are spatial transforms that
+	\begin{enumerate}
+		\item Keep gridlines parallel
+		\item Keep gridlines evenly spaced
+		\item Keep the origin stationary
+	\end{enumerate}
+
+	Translations are not true linear maps under this definition.
+}
+
+\dfn{Abstract Definition}
+{
+	\begin{enumerate}
+		\item A function that maps $V \to W$, where $V$ and $W$ are vector spaces
+		\item Adds inputs and outputs: $L\left( \vec{v} + \vec{w} \right)  = L(\vec{v}) + L\left(\vec{w}  \right) $
+		\item Scale the input and outputs: $L(n \vec{v}) = n L(\vec{v})$
+	\end{enumerate}
+	Linear maps have linearity like covectors, except in this case, the output of the function is a vector and not a scalar. Linearity should not be confused with closure under multiplication by scalars and closure under addition of vectors. Linearity applies to \emph{functions} and their inputs/outputs.
+}
+
+\ex{Where do we get Matrix Multiplication?}{
+	Consider a linear map, $L: V \to V$, acting on a vector, $\vec{v}$
+	$$ \vec{w} = L\left( \vec{v} \right) = L\left( v^1 \vec{e_1} + v^2 \vec{e_2} \right) = v^1 L(\vec{e_1}) + v^2 L\left( \vec{e_2} \right)  $$ 
+	Let us define the output of the linear map as follows:
+	$$ L(\vec{e_1}) = L^1_1 \vec{e_1} + L^1_2 \vec{e_2} $$ 
+	$$ L(\vec{e_2}) = L^2_1 \vec{e_1} + L^2_2 \vec{e_2} $$ 
+	we can do this since we know that the output vector of the linear map is an element of the vector space, $V$, which means we can write the output vector as a linear combination of the basis vectors, $\vec{e_1}$ and $\vec{e_2}$.
+
+	$$ \vec{w} = v^1 \left( L^1_1 \vec{e_1} + L_1^2 \vec{e_2} \right) + v^2\left( L_2^1 \vec{e_1} + L_2^2 \vec{e_2} \right)  $$ 
+	$$ \vec{w} = \vec{e_1} \underbrace{\left( L^1_1 v^1 + L_2^1 v^2 \right)}_{w^1} + \vec{e_2}\underbrace{\left( L_1^2 v^1 + L_2^2 v^2 \right)}_{w^2}   $$ 
+
+	Thus we have
+	$$ w^1 = L_1^1 v^1 + L_2^1 v^2 $$ 
+	$$ w^2 = L_1^2 v^1 + L_2^2 v^2 $$ 
+	Notice this is the formula we get when multiplying the matrix, $L$ with the vector, $v$, in 2D. This is where we get the way we multiply matrices.
+}
+
+In $n$-dimensions we have
+$$ \vec{w} = \sum_{i=1}^{n} w^i \vec{e_i }$$ 
+$$ L\left( \vec{e_i} \right) = \sum_{j=1}^{n} L_i^j \vec{e_j} $$ 
+Thus the matrix multiplication rule we get is:
+$$ w^i = \sum_{j=1}^{n} L_j^i v^j $$ 
+
+\chapter{Linear Map Transformation Rules}
+We want to be able to do a change of basis on $\vec{e_i}$ to get $\widetilde{\vec{e_i}}$ and compute the linear map on those vectors:
+
+In the original basis
+$$ L\left( \vec{e_i} \right) = \sum_{k=1}^{n} L_i^k \vec{e_k} $$ 
+In the new basis
+$$ L\left(\widetilde{ \vec{e_i} }\right) = \sum_{q=1}^{n} \widetilde{L_i^q} \widetilde{\vec{e_q}} $$ 
+We want to find what these $\widetilde{L_i^q}$ coefficients are
+
+\clm{Linear Map Transformation}{}{
+	$$ \widetilde{L_i^q}= \sum_{j=1}^{n} \sum_{k=1}^{n} B_k^q L_j^k F_i^j $$ 
+}
+
+\begin{myproof}
+	We have the basis vector transformation rules:
+	$$ \widetilde{\vec{e_i}} = \sum_{j=1}^{n} F_i^j \vec{e_j} \qquad \vec{e_k} = \sum_{l=1}^{n} B_k^l \widetilde{\vec{e_l}} $$ 
+$$ L\left(\widetilde{ \vec{e_i} }\right) = \sum_{q=1}^{n} \widetilde{L_i^q} \widetilde{\vec{e_q}}  $$ 
+$$ L\left(\widetilde{\vec{e_i}}\right) = L\left(\sum_{j=1}^{n} F_i^j \vec{e_j}\right) $$ 
+$$\implies  \sum_{q=1}^{n} \widetilde{L_i^q} \widetilde{\vec{e_q}} = \sum_{j=1}^{n} F_i^j L\left(\vec{e_j}\right) $$ 
+
+Use the definition of $L$ applied on $\vec{e_i}$ 
+$$ \sum_{q=1}^{n} \widetilde{L_i^q} \widetilde{\vec{e_q}} = \sum_{j=1}^{n} F_i^j \sum_{k=1}^{n} L_j^k \vec{e_k} $$ 
+
+Now get the RHS in terms of the new basis vectors, $\widetilde{\vec{e_k}}$ using the backwards transformation:
+$$ \sum_{q=1}^{n} \widetilde{L_i^q} \widetilde{\vec{e_q}} = \sum_{j=1}^{n} F_i^j \sum_{k=1}^{n} L_j^k \sum_{l=1}^{n} B_k^l \widetilde{\vec{e_l}} $$ 
+Rearranging gives
+$$ \sum_{q=1}^{n} \widetilde{L_i^q} \widetilde{\vec{e_q}} = \sum_{j=1}^{n}  \sum_{k=1}^{n}  \sum_{l=1}^{n}  F_i^j L_j^k B_k^l \widetilde{\vec{e_l}} $$ 
+Rewriting $q = l$
+$$ \sum_{q=1}^{n} \widetilde{L_i^q} \widetilde{\vec{e_q}} = \sum_{q=1}^{n} \left(\sum_{j=1}^{n}  \sum_{k=1}^{n}    F_i^j L_j^k B_k^q\right) \widetilde{\vec{e_q}} $$ 
+
+Thus we arrive at the final expression for the new linear map matrix:
+$$ \widetilde{L_i^q} = \sum_{j=1}^{n} \sum_{k=1}^{n} F_i^j L_j^k B_k^q  $$ 
+
+
+\end{myproof}
+
+In einstein notation, we can rewrite this as:
+$$ \widetilde{L_i^q} = F_i^{\pmb{j}} L_{\pmb{j}}^{\pmb{k}} B_{\pmb{k}}^q $$ 
+The bolded letters are the indices we sum over. Whenever we have the superscript followed by the same subscript (or vice versa), we sum over that letter.
+
+Similarly, using Einstein notation we have:
+$$ \widetilde{\vec{e_i} }= F_i^{\pmb{j}} \vec{e_{\pmb{j}}} \qquad \vec{e_k} = B_k^{\pmb{l}} \vec{e_{\pmb{l}}} $$ 
+
+\ex{Multiplying by Identity Matrix with Einstein Notation}{
+	If we have a matrix $M$
+	 $$ MI = M $$ 
+	 $$ \implies \left( MI \right)_i^k = \sum_{j=1}^{n} M_i^j \delta_j^k = M_i^{\pmb{j}} \delta_{\pmb{j}}^k = M_i^k $$ 
+
+	 From this example, we can see that $\delta_j^k$ acts to cancel consecutive summation indices.
+}
+
+\begin{myproof}
+	Now we will prove how to go from the new basis to the old basis for linear maps:
+
+	We have the following equality:
+	$$ \delta_y^x = B_y^z F_z^x $$ 
+	From the definition of the first transformation matrix we got:
+	$$ \widetilde{L_i^l} = B_k^l L_j^k F_i^j $$ 
+	Multiply both sides with $F$ and $B$
+	$$ F_l^s \widetilde{L_i^l} B_t^i = F_l^s B_k^l L_j^k F_i^j B_t^i $$ 
+	$$ F_l^s \widetilde{L_i^l} B_t^i = \delta_k^s L_j^k \delta_t^j $$ 
+	$$ F_l^s \widetilde{L_i^l} B_t^i =  L_t^s  $$ 
+\end{myproof}
+
+\dfn{Contravariant (1, 0)-Tensors}{
+$$ \widetilde{\epsilon^i} = B_j^i \epsilon^j \qquad \epsilon^i = F_j^i \widetilde{\epsilon^j} $$ 
+$$ \widetilde{v^i} = B_j^i v^j \qquad v^i = F_j^i \widetilde{v^j} $$ 
+}
+
+\dfn{Covariant (1, 0)-Tensors}{
+	$$ \widetilde{\vec{e_j}} = F_j^i \vec{e_i } \qquad \vec{e_j} = B_j^i \widetilde{\vec{e_i}}$$ 
+
+	$$ \widetilde{\alpha_j} = F_j^i \alpha_i \qquad \alpha_j = B_j^i \widetilde{\alpha_i} $$ 
+}
+
+\dfn{(1, 1) Tensor}{
+	$$ \widetilde{L_j^i} = B_k^i L_l^k F_j^l \qquad L_j^i = F_k^i \widetilde{L_l^k} B_j^l $$ 
+	Since this tensor uses both the forward and backwards matrices, it is called a $(1,1)$-tensor.
+}
+
+\chapter{The Metric Tensor}
+\section{Lengths using the Metric Tensor}
+When getting the length of a vector, we usually just use the pythagorean theorem. However, the pythagorean theoerem assumes an \emph{orthonormal basis}, since assume we can make a right triangle with the basis vectors and the vector we're getting the length of.
+
+The pythagorean theorem only works for basis vectors of length 1 that are orthgonal.
+
+The real way to compute length is with the dot product:
+$$ \|v\|^2 = \vec{v} \cdot \vec{v} = \left( v^1 \right)^2 \left( \vec{e_1}\cdot \vec{e_1} \right)  + 2 v^1v^2\left( \vec{e_1} \cdot \vec{e_2} \right) + (v^2)^2 \left( \vec{e_2}\cdot \vec{e_2}\right) $$ 
+
+Note that in the case of an orthonormal basis, 
+$$ \delta_{ij} = \vec{e_i} \cdot \vec{e_j} $$ 
+which means we just get the pythagorean theorem.
+
+\ex{Metric Tensor}{
+
+Consider a vector, $v$, in an old basis, $\vec{e_i}$, and in a new basis, $\widetilde{\vec{e_i}}$. Let the old basis be orthonormal and the following be true for the new basis:
+
+$$ \widetilde{\vec{e_1}} \cdot \widetilde{\vec{e_1}} = 5, \qquad \widetilde{\vec{e_1}} \cdot \widetilde{\vec{e_2}} = -\frac{3}{4}, \qquad \widetilde{\vec{e_1}} \cdot \widetilde{\vec{e_2}} = \frac{5}{16} $$ 
+
+In the old basis the length squared is 
+$$ \|\vec{v}\| =  \left( v^1 \right)^2 + \left( v^2 \right)^2$$ 
+
+and in the new basis:
+$$  \|\vec{v}\| = 5 \left( \widetilde{v^1} \right)^2 + 2 \left( -\frac{3}{4} \right) \widetilde{v^1} \widetilde{v^2} + \frac{5}{16}\left( \widetilde{\vec{v^2}} \right)^2  $$ 
+
+These two equations can be rewritten in matrix form:
+$$ \|v\|^2 = \begin{bmatrix} v^1 & v^2 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} v^1\\ v^2 \end{bmatrix} $$ 
+$$ \|v\|^2 = \begin{bmatrix} v^1 & v^2 \end{bmatrix} \begin{bmatrix} 5 & -\frac{3}{4} \\ -\frac{3}{4} & \frac{5}{16} \end{bmatrix} \begin{bmatrix} v^1\\ v^2 \end{bmatrix} $$ 
+
+The matrices in the middle are called the \textbf{metric tensor}, denoted by $g$
+
+$$ g_{\vec{e_i}} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}_{\vec{e_i}}  $$ 
+$$ g_{\widetilde{\vec{e_i}}} = \begin{bmatrix} 5 & -\frac{3}{4} \\ -\frac{3}{4 } & \frac{5}{16} \end{bmatrix}_{\widetilde{\vec{e_i}}}  $$
+
+Note these are the same metric tensor, but represented with a different basis
+}
+
+The length of a vector can then be rewritten in terms of the \emph{metric tensor}:
+$$ \|\vec{v}\|^2 = v^i v^j \left( \vec{e_i}\cdot \vec{e_j} \right)  = v^i v^j g_{ij} = v^i g_{ij} v^j $$ 
+Note the use of einstein notation with an implied summation over $i$ and $j$ in the above equation
+$$ g_{ij} = \vec{e_i} \cdot \vec{e_j} $$ 
+
+\section{Angles using the Metric Tensor}
+The metric tensor can also be used to compute the angle between two vectors, $\vec{w}$ and $\vec{v}$. Create a unit basis vectors that is in the dirction of $\vec{v}$ and another unit basis vector in the direction of $\vec{w}$:
+
+$$ \vec{e_1} \cdot \vec{e_1 } = 1 $$ 
+$$ \vec{e_2} \cdot \vec{e_2 } = 1 $$ 
+$$ \vec{e_1} \cdot \vec{e_2} = \cos \theta $$ 
+$$ \implies \vec{v} \cdot \vec{w} = \|\vec{v}\| \|\vec{w}\| \cos \theta $$ 
+$$ \frac{\left( \vec{v} \cdot \vec{w} \right) }{\|\vec{v}\|\|\vec{w}\|} = \cos \theta $$ 
+
+$$ \vec{v}\cdot \vec{w} = \left( v^1 \vec{e_1} + v^2 \vec{e_2} \right) \cdot \left( w^1 \vec{e_1} + w^2 \vec{e_2} \right) $$ 
+$$ \vec{v} \cdot \vec{w}= v^1 w^1 \left( \vec{e_1} \cdot \vec{e_1} \right) + v^1 w^2 \left( \vec{e_1} \cdot \vec{e_2} \right) + v^2 w^1 \left( \vec{e_2} \cdot \vec{e_1} \right)   + v^2 w^2 \left( \vec{e_2}\cdot \vec{e_2} \right) $$ 
+$$ \vec{v}\cdot \vec{w} = v^1 w^1 g_{11} + v^1 w^2 g_{12} + v^2 w^1 g_{21} + v^2 w^2 g_{22} $$ 
+$$ \vec{v}\cdot \vec{w} = v^i w^i g_{ij} $$ 
+
+\section{How Metric Tensor Components Transform with a Change in Coordinates}
+Converting from old to new
+$$ \widetilde{\vec{e_j}} = F_j^i \vec{e_i}  \qquad \vec{e_j} = B_j^i \widetilde{e_i} $$ 
+
+$$ \widetilde{g_{ij}} = \widetilde{\vec{e_i}} \cdot \widetilde{\vec{e_j}} = F_i^k \vec{e_k} \cdot F_j^l \vec{e_l}$$
+$$ \widetilde{g_{ij}} = F_i^k F_j^l \left( \vec{e_k} \cdot \vec{e_l} \right)  $$ 
+$$ \widetilde{g_{ij}} = F_i^k F_j^l g_{kl} = F_i^k g_{kl} F_j^l $$ 
+
+Similarly from new to old:
+$$ g_{kl} = B_k^i B_l^j \widetilde{g_{ij}}  $$ 
+
+\section{Confirming Length Stays Constant}
+We have the transformation rules for vectors
+$$ \widetilde{v^i} = B_j^i v^j \qquad v^i = F_j^i \widetilde{v^j} $$ 
+
+and the transformation rules for the metric tensor
+$$ \widetilde{g_{ij}} = F_i^k F_j^l g_{kl} \qquad g_{kl} = B_k^i B_l^j \widetilde{g_{ij}} $$ 
+
+$$ \|v\|^2 = \widetilde{v^i}\widetilde{v^j} \widetilde{g_{ij}} $$ 
+
+$$ \|v\|^2 = B_a^i v^a B_b^j v^b \left( F_i^k F_j^l g_{kl} \right) =  v^a v^b \delta_a^k \delta_b^l g_{kl} $$ 
+$$ \|v\|^2 = v^a v^b g_{ab} $$ 
+
+\section{Summary}
+\dfn{Contravariant (1, 0)-Tensors}{
+$$ \widetilde{\epsilon^i} = B_j^i \epsilon^j \qquad \epsilon^i = F_j^i \widetilde{\epsilon^j} $$ 
+$$ \widetilde{v^i} = B_j^i v^j \qquad v^i = F_j^i \widetilde{v^j} $$ 
+}
+
+\dfn{Covariant (1, 0)-Tensors}{
+	$$ \widetilde{\vec{e_j}} = F_j^i \vec{e_i } \qquad \vec{e_j} = B_j^i \widetilde{\vec{e_i}}$$ 
+
+	$$ \widetilde{\alpha_j} = F_j^i \alpha_i \qquad \alpha_j = B_j^i \widetilde{\alpha_i} $$ 
+}
+
+\dfn{(1, 1) Tensor}{
+	$$ \widetilde{L_j^i} = B_k^i L_l^k F_j^l \qquad L_j^i = F_k^i \widetilde{L_l^k} B_j^l $$ 
+	Since this tensor uses both the forward and backwards matrices, it is called a $(1,1)$-tensor.
+}
+
+\dfn{(2, 0)-Tensor}{
+	$$ \widetilde{g_{ij}} = F_i^k F_j^l g_{lk} $$ 
+	$$ g_{lk} = B_k^i B_l^j \widetilde{g_{ij}} $$ 
+	Called the $(2, 0)$-tensor since the metric tensor uses two covariant rules
+}
+
+
+\section{Revisiting the Coordinate Tensor Definition}
+Earlier we gave a coordinate definition of the tensor:
+\dfn{Tensors as objects invariant under a change in coordinates}{
+	\begin{enumerate}
+		\item Tensors have \textbf{components} that change in a \textbf{predictable} way when the coordinates are changed
+		\item Vectors are \textbf{invariant}, but vector components are not
+		\item Example of something invariant under coordinate transformation: length
+		\item Converting tensor components from one coordinate system to another is called a \textbf{Forward Transformation}, while doing the reverse if \textbf{Backwards Transformation}
+	\end{enumerate}
+}
+
+Now we can explain the \textbf{predictable} way that tensor components transform. Suppose we have a tensor, $T$
+$$ T_{rst\ldots}^{ijk\ldots} $$ 
+
+$ijk\ldots$ are the contravariant components while $rst\ldots$ are the covariant parts of the tensor, $T$
+
+The \textbf{predictabe} way tensors transform is defined by the following:
+
+$$ \widetilde{T_{xyz}^{abc}} = \left( B_i^a B_j^b B_k^c \ldots \right) T_{rst}^{ijk} \left( F_x^r F_y^s F_z^t \right)   $$ 
+$$ T_{rst}^{ijk} = \left( F_a^i F_b^j F_c^k \ldots \right) \widetilde{T_{xyz}^{abc}} \left( B_r^x B_s^y B_t^z\ldots \right)   $$ 
+
+When a tensor has $m$ contravariant components and $n$ covariant components, the tensor is called a $(m,n)$-tensor.
+
+\chapter{Bilinear Forms}
+Another type of tensor is a bilinear form. A metric tensor is a special type of bilinear form.
+\section{Metric Tensor Review}
+Note that since $g_{ij} = \vec{e_i} \cdot \vec{e_j}$, and the dot product is commutative, this means the metric tensor is symmetric.
+
+You can think of the metric tensor, $g$, as a function  $g: V \times V \to \R$
+
+$$ g\left( \vec{v}, \vec{w} \right) \mapsto v^iw^i g_{ij} $$ 
+
+Multiplying by $a$ means you can move the $a$ to one of the inputs, but not both:
+$$ a g(\vec{v}, \vec{w}) = g\left( \vec{v} \right) , a \vec{w}) = g(a\vec{v}, \vec{w}) $$ 
+$$ ag(\vec{v}, \vec{w}) \neq g(a \vec{v}, a \vec{w}) $$ 
+
+Adding a vector to one of the inputs:
+$$ \left( \begin{bmatrix} v^1 & v^2 \end{bmatrix} + \begin{bmatrix} u^1 & u^2 \end{bmatrix}  \right) \begin{bmatrix} g_{11} & g_{12}\\ g_{21} & g_{22} \end{bmatrix} \begin{bmatrix} w^1 \\ w^2 \end{bmatrix}  $$ 
+$$ \begin{bmatrix} v^1 & v^2 \end{bmatrix}   \begin{bmatrix} g_{11} & g_{12}\\ g_{21} & g_{22} \end{bmatrix} \begin{bmatrix} w^1 \\ w^2 \end{bmatrix} + \begin{bmatrix} u^1 & u^2 \end{bmatrix}   \begin{bmatrix} g_{11} & g_{12}\\ g_{21} & g_{22} \end{bmatrix} \begin{bmatrix} w^1 \\ w^2 \end{bmatrix} $$ 
+$$ \left( v^i + u^i \right) w^j g_{ij} = v^i w^j g_{ij} + u^i w^j g_{ij} $$ 
+$$ \implies g\left(\vec{v}+\vec{u}, \vec{w}\right) = g(\vec{v}, \vec{w}) + g(\vec{u}, \vec{w}) $$ 
+$$ g\left(\vec{v}, \vec{w} + \vec{t}\right) = g\left(\vec{v}, \vec{w}\right)  + g\left(\vec{v}, \vec{t} \right) $$ 
+
+$$ g\left(\vec{v} + \vec{u}, \vec{w} + \vec{t}\right) = g\left(\vec{v}, \vec{w}\right) + g\left( \vec{u}, \vec{w} \right) + g\left( \vec{v}, \vec{w} \right) + g\left( \vec{v}, \vec{t} \right) $$ 
+
+\section{Bilinear Forms}
+Like the metric tensor, bilinear forms are $(0, 2)$-tensors with the same properties as metric tensors:
+
+$$\mathcal{B}: V \times V \to \R $$ 
+$$ \mathcal{B} \mapsto v^i w^j B_{ij} $$ 
+
+$$ a \mathcal{B} \left( \vec{v}, \vec{w} \right) = \mathcal{B}\left( \vec{v}, a \vec{w} \right) = \mathcal{B}\left( a \vec{v}, \vec{w} \right)$$ 
+$$ \mathcal{B}\left( \vec{v}+\vec{u}, \vec{w} \right) = \mathcal{B}\left( \vec{v}, \vec{w} \right) + \mathcal{B}\left( \vec{u}, \vec{w} \right) $$ 
+$$ \mathcal{B}\left( \vec{v}, \vec{w} + \vec{t} \right) = \mathcal{B}\left( \vec{v}, \vec{w} \right) + \mathcal{B}\left( \vec{v}, \vec{w} \vec{t} \right) $$ 
+
+with the same transformation rules as the metric tensor:
+$$ \widetilde{\mathcal{B}_{ij}} = F_i^k F_j^l \mathcal{B}_{lk} $$ 
+$$ \mathcal{B}_{lk} = B_k^i B_l^j \widetilde{\mathcal{B}_{ij}} $$ 
+
+A \emph{form} is just a function that takes vectors are inputs and output a scalar:
+$$ V \times V \times V \ldots \times V \to \R $$ 
+
+Covectors are somtimes called 1-Forms since they are linear forms. If you look at one input of the bilinear form, it behaves like a covector (scaling and addition work the same way).
+
+\section{Properties of the Metric Tensor}
+The following two additional criterion are what makes a metric tensor a special type of bilinear form:
+
+$$ g\left( \vec{v}, \vec{w} \right) = v^i w^j g_{ij} = v^i w^j g_{ji}= g\left( \vec{w}, \vec{v} \right) $$ 
+$$ g\left(\vec{v}, \vec{v}\right) = \|v\|^2 \ge 0 $$ 
+
+\chapter{Linear Maps are Vector-Covector Pairs}
+Recall the abstract definition of the tensor from earlier:
+
+\dfn{Tensors as a combination of vectors and convectors combined using the tensor product}{Best definition, but a bit abstract.}
+
+This implies that the $(0, 2)$-tensors (e.g. bilinear forms) and $(1, 1)$-tensors (e.g. linear maps) can be built from just $(0, 1)$ and $(1, 0)$ tensors (covectors and contravariant tensors, respectively).
+
+If you multiply a column vector with a row vector, you get scalar. However, if you multiply a row vector (i.e. covector) with a column vector (i.e. vector), you get a matrix (i.e. a linear map).
+$$ \begin{bmatrix} 3 \\ -4 \end{bmatrix} \begin{bmatrix} 2 & 1 \end{bmatrix}  = \begin{bmatrix} 6 & 3 \\ -8 & -4 \end{bmatrix}  $$ 
+
+If we try the reverse operation by breaking an arbitrary matrix into a row vector and column vector, then we find that only some matrices can be broken down.
+
+\textbf{Pure} matrices can be written as the product of column vector and row vector components while \textbf{impure} matrices cannot.
+
+But with pure matrices, the linear transformation just scales the input vector by a constant, which isn't very interesting.
+$$ L_j^i = v^i \alpha_j $$ 
+$$ \begin{bmatrix} 4 & 400 \\ 8 & 800 \end{bmatrix}  $$ 
+
+So we need a different way of constructing a linear map since multiplying the column vector by a row vector only allows us to create uninteresting linear transformations.
+
+Consider the following products between basis and dual basis vectors.
+$$ \vec{e_1} \epsilon^1 = \begin{bmatrix} 1 \\ 0 \end{bmatrix} \begin{bmatrix} 1 & 0 \end{bmatrix}  = \begin{bmatrix} 1& 0 \\ 0 & 0 \end{bmatrix}  $$ 
+
+$$ \vec{e_1} \epsilon^2  = \begin{bmatrix} 1 \\ 0 \end{bmatrix} \begin{bmatrix} 0 & 1 \end{bmatrix}  = \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix} $$ 
+
+$$ \vec{e_2} \epsilon^1 = \begin{bmatrix} 0 \\ 1 \end{bmatrix} \begin{bmatrix} 1 & 0 \end{bmatrix} = \begin{bmatrix} 0 & 0 \\ 1 & 0 \end{bmatrix}    $$ 
+$$ \vec{e_2} \epsilon^2 = \begin{bmatrix} 0 \\ 1 \end{bmatrix} \begin{bmatrix} 0 & 1 \end{bmatrix}  = \begin{bmatrix} 0 & 0 \\ 0 & 1 \end{bmatrix}  $$ 
+
+If we take a linear combination all these products, we can represent any matrix. So these products $\left\{ \vec{e_1}\epsilon^1, \vec{e_2}\epsilon^1, \vec{e_2}\epsilon^1, \vec{e_2}\epsilon^2 \right\}$ form a basis of all matrices that are linear maps from $V \to V$
+$$ a \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}  + b \begin{bmatrix} 0 & 1 \\ 0& 0 \end{bmatrix}  + c \begin{bmatrix} 0 & 0 \\ 1 & 0 \end{bmatrix} + d \begin{bmatrix} 0 & 0 \\ 0 & 1 \end{bmatrix} = \begin{bmatrix} a & b \\ c & d \end{bmatrix}   $$ 
+
+Any general linear map, $L$ can be written
+ $$ L = L_j^i \vec{e_i} \epsilon^j $$ 
+
+\begin{myproof}
+	Consider an input vector, $\vec{v}$, and output vector, $\vec{w}$
+	$$ \vec{w } = L\left( \vec{v} \right) $$ 
+	$$ \vec{w} = L_j^i \vec{e_i} \epsilon^j\left( \vec{v} \right)=L_j^i \vec{e_i} \epsilon^j\left( v^k \vec{e_k}\right) $$ 
+	$$ \vec{w} = L_j^i \vec{e_i}v^k \epsilon^j \left( \vec{e_k} \right) $$ 
+	$$ \epsilon_j\left( \vec{e_k} \right) = \delta_k^j $$ 
+	$$\implies \vec{w} = L_j^i \vec{e_i} v^k \delta_k^j $$ 
+	$$ \vec{w} = L_j^i \vec{e_i}v^j $$ 
+	$$ \vec{w} = L_j^i v^j \vec{e_i} $$ 
+	This is the same result as before where
+	$$ w^i = L_j^i v^j $$ 
+
+\end{myproof}
+
+The basis we had before, $\left\{ \vec{e_1}\epsilon^1, \vec{e_2}\epsilon^1, \vec{e_2}\epsilon^1, \vec{e_2}\epsilon^2 \right\}$, is not the only basis we can have. We can have a different basis that can form the set of all linear maps when we take a linear combination.
+
+Additionally, the following term is a \emph{tensor product} between a vector and covector:
+$$ \vec{e_i} \epsilon^j $$ 
+It can be written using the tensor product symbol, $\otimes$
+$$ \vec{e_i} \otimes \epsilon^j $$ 
+
+\chapter{Bilinear Forms as Covector-Covector Pairs}
+\nt{
+	Note on non-standard notation.
+
+	The tensor product between covector-covector pairs will be written as
+	$$ \epsilon_i \epsilon_j = \epsilon^i \otimes \epsilon^j $$ 
+
+	and the tensor product between vector-covector:
+	$$ \vec{e_i} \epsilon^j  = \vec{e_i} \otimes \epsilon^j $$  
+}
+
+\section{Benefits of Tensor Product Definition for Linear Maps}
+
+One of the benefits of looking at tensors as a product between covectors and vectors is that we can rederive the transformation rules easily for linear maps:
+$$ L = L_l^k \vec{e_k} \epsilon^l $$ 
+$$ L = L_l^k \left( B_k^i \widetilde{\vec{e_i}} \right) \left( F_j^l \widetilde{\epsilon^j} \right) $$ 
+$$ L = \left( B_k^i L_l^k F_j^l \right) \widetilde{\vec{e_i} } \widetilde{\epsilon^j}$$ 
+
+$$ \widetilde{L_j^i} = B_k^i L_l^k F_j^l $$ 
+
+We also showed that we derive the output vector components that result from a linear map:
+$$ \vec{w } = L\left( \vec{v} \right) $$ 
+$$ \vec{w} = L_j^i \vec{e_i} \epsilon^j \left( v^k \vec{e_k }\right)$$ 
+$$ \vec{w} = L_j^i \vec{e_i}v^k \epsilon^j\left( \vec{e_k} \right)  $$ 
+$$ \vec{w} = L_j^i v^k \vec{e_i} \delta_k^j $$
+$$ \vec{w} = L_j^i v^j \vec{e_i}  $$ 
+
+Finally, a tensor product allows us to get the dimensions of "array multiplication." Previously we showed that the product of a column vector and row vector forms a matrix/linear map:
+$$ \begin{bmatrix} v^1 \\ v^2 \end{bmatrix} \begin{bmatrix} \alpha_1 & \alpha_2 \end{bmatrix} = \begin{bmatrix} v^1 \alpha_1 & v^1 \alpha_2 \\ v^2 \alpha_1 & v^2 \alpha_2 \end{bmatrix}  $$ 
+
+But doing the tensor product gives us a different, but equivalent way of construcing the linear map:
+
+$$ \begin{bmatrix} v^1 \\ v^2 \end{bmatrix} \otimes \begin{bmatrix} \alpha_1 & \alpha_2 \end{bmatrix} = \begin{bmatrix} \begin{bmatrix} v^1 \\ v^2 \end{bmatrix} \alpha_1 & \begin{bmatrix} v^1 \\ v^2 \end{bmatrix} \alpha_2 \end{bmatrix} = \begin{bmatrix} \begin{bmatrix} v^1 \alpha_1 \\ v^2 \alpha_1 \end{bmatrix} & \begin{bmatrix} v^1 \alpha_2 \\ v^2 \alpha_2  \end{bmatrix}   \end{bmatrix}   $$ 
+The result of the tensor product is a row vector of column vectors, which is basically a matrix.
+
+\section{Bilinear Forms as Covector-Covector Pairs}
+We will represent a bilinear form as a \emph{linear combination} of covector-covector pairs:
+$$ \mathcal{B} = \mathcal{B}_{ij} \epsilon^i \epsilon^j = \mathcal{B}_{ij} \left(\epsilon^i \otimes \epsilon^j\right) $$ 
+
+We choose covector-covector pairs since each covector takes in a vector input, so two covectors will take in two inputs just like a bilinear form.
+
+Let's confirm the transformation rules for this new representation of a bilinear form as a linear combination of covector-covector pairs:
+$$ \mathcal{B} = \mathcal{B}_{kl} \epsilon^k \epsilon^l $$ 
+$$ \mathcal{B} = \mathcal{B}_{lk} \left( F_i^k \widetilde{\epsilon^i} \right) \left( F_j^l \widetilde{\epsilon^j} \right) $$ 
+$$ \mathcal{B} = \underbrace{\left(F_i^k F_j^l \mathcal{B}_{lk}  \right)}_{\widetilde{\mathcal{B}_{ij}}} \widetilde{\epsilon^i} \widetilde{\epsilon^j} $$ 
+
+$$ \widetilde{\mathcal{B}_{ij}} = F_i^k F_j^l \mathcal{B}_{lk} $$ 
+
+We can also rederive the formula for computing the bilinear form on two input vectors:
+
+$$ \mathcal{B} = \mathcal{B}_{ij} \epsilon^i \epsilon^j $$ 
+$$ s = \mathcal{B}\left( \vec{v}, \vec{w} \right) = \mathcal{B}_{ij} \epsilon^i \epsilon^j \left( \vec{v}, \vec{w} \right) = \mathcal{B}_{ij} \epsilon^i \epsilon^j \left(v^k \vec{e_k}, w^l \vec{e_l} \right) $$ 
+$$ s = \mathcal{B}_{ij} \epsilon^i \left( v^k \vec{e_k} \right) \epsilon^j \left( w^l \vec{e_l} \right) $$ 
+$$ s = \mathcal{B}_{ij} v^k w^l \delta_k^i \delta_l^k = \mathcal{B}_{ij} v^i w^k$$ 
+
+Doing the tensor product between two covectors gives us the "shape" of the bilinear form:
+$$ \begin{bmatrix} \alpha_1 & \alpha_2 \end{bmatrix} \otimes \begin{bmatrix} \beta_1 & \beta_2 \end{bmatrix} = \begin{bmatrix} \begin{bmatrix} \alpha_1 & \alpha_2 \end{bmatrix} \beta_1 & \begin{bmatrix} \alpha_1 & \alpha_2 \end{bmatrix} \beta_2  \end{bmatrix}  $$ 
+$$ = \begin{bmatrix} \begin{bmatrix} \alpha_1 \beta_1 & \alpha_2 \beta_1 \end{bmatrix} & \begin{bmatrix} \alpha_1 \beta_2 & \alpha_2 \beta_2 \end{bmatrix}  \end{bmatrix}  $$ 
+
+The tensor product between two covectors gives a row of rows. This might contradict what we got earlier for a bilinear form, which was a matrix. But recall that we had to write the two vector inputs in an awkward manner by writing one of the vector inputs as a row vector, when usually we wrote vectors as column vectors:
+$$ \mathcal{B}\left( \vec{v}, \vec{w} \right) = \begin{bmatrix} v^1 & v^2 \end{bmatrix} \begin{bmatrix} \mathcal{B}_{11} & \mathcal{B}_{12} \\ \mathcal{B}_{21} & \mathcal{B}_{22} \end{bmatrix} \begin{bmatrix} w^1 \\ w^2 \end{bmatrix}  $$ 
+
+but this alternative representation of bilinear forms as a row of rows allows us to write both vector inputs as column vectors:
+
+$$ \mathcal{B}\left( \vec{v}, \vec{w} \right) = \begin{bmatrix} \begin{bmatrix} \mathcal{B}_{11} & \mathcal{B}_{12} \end{bmatrix} & \begin{bmatrix}  \mathcal{B}_{21} & \mathcal{B}_{22}\end{bmatrix}  \end{bmatrix} \begin{bmatrix} v^1 \\ v^2 \end{bmatrix} \begin{bmatrix}  w^1 \\ w^2 \end{bmatrix}  $$ 
+$$ =\left( \begin{bmatrix} \mathcal{B}_{11} & \mathcal{B}_{12} \end{bmatrix} v^1  + \begin{bmatrix} \mathcal{B}_{21} & \mathcal{B}_{22} \end{bmatrix} v^2  \right)\begin{bmatrix} w^1 \\ w^2 \end{bmatrix}  $$ 
+$$ =\begin{bmatrix} \left( \mathcal{B}_{11}v^1 + \mathcal{B}_{21} v^2 \right) & \left( \mathcal{B}_{12}v^1 + \mathcal{B}_{22}v^2 \right) \end{bmatrix} \begin{bmatrix} w^1 \\ w^2 \end{bmatrix}  $$ 
+$$ = \left( \mathcal{B}_{11}v^1 + \mathcal{B}_{21} v^2 \right)w^1 + \left( \mathcal{B}_{12}v^1 + \mathcal{B}_{22}v^2 \right) w^2  $$ 
+$$ = w^1 \mathcal{B}_{11}v^1 +w^1 \mathcal{B}_{21} v^2 + w^2 \mathcal{B}_{12}v^1 + w^2\mathcal{B}_{22}v^2 $$ 
+$$ = B_{ij} v^i w^j  $$ 
+
+\chapter{Tensor Product vs. Kronecker Product}
+Both the tensor product and kronecker product are denoted with $ \otimes$
+
+\section{Definition of Tensor Product}
+Basis for vector space, $V$
+ $$ \vec{e_1}, \vec{e_2} \in V $$ 
+Basis for dual vector space, $V*$
+$$ \epsilon^1, \epsilon_{2} \in V $$ 
+$$ \epsilon^i \left( \vec{e_j} \right) = \delta_{ij} $$ 
+
+The tensor product takes two tensors and produces a new tensor.
+
+$$ \vec{e_i} \otimes \epsilon^j $$ 
+In the above case the tensor product takes a vector and covector to produce a linear map:
+
+\begin{myproof}
+$$\left(  \vec{e_i} \otimes \epsilon^j  \right) \left( \vec{v} \right)$$ 
+$$=  \vec{e_i} \otimes \left( \epsilon^j  \left( \vec{v} \right) \right)$$ 
+$$=  \vec{e_i} \otimes \left( \epsilon^j  \left( v^k \vec{e_k} \right) \right)$$ 
+$$=  \vec{e_i} v^k \otimes \left(  \epsilon^j   \left(  \vec{e_k} \right) \right)$$ 
+$$=  \vec{e_i} v^k \delta_k^j $$ 
+$$=  \vec{e_i} v^j $$ 
+
+Thus the tensor product between $\vec{e_i}$ and $\epsilon^j$ is a linear map since it can take vector input and produces a vector output
+	
+\end{myproof}
+
+\section{Kronecker Product}
+The kronecker product operates on two arrays/matrices, in this case a column vector and row vector:
+$$ \begin{bmatrix} v^1 \\ v^2 \end{bmatrix} \otimes \begin{bmatrix} \alpha_1 & \alpha_2 \end{bmatrix}  $$ 
+$$ = \begin{bmatrix} \begin{bmatrix} v^1  \\ v^2 \end{bmatrix}\alpha_1 & \begin{bmatrix} v^1  \\ v^2 \end{bmatrix} \alpha_2  \end{bmatrix}  $$ 
+
+$$ = \begin{bmatrix} \begin{bmatrix} v^1 \alpha_1 \\ v^2 \alpha_1 \end{bmatrix} & \begin{bmatrix} v^1 \alpha_2 \\ v^2 \alpha_2 \end{bmatrix}   \end{bmatrix}  $$ 
+
+The kronecker product between the above and a column vector, $\vec{w}$:
+$$ = \begin{bmatrix} \begin{bmatrix} v^1 \alpha_1 \\ v^2 \alpha_1 \end{bmatrix} & \begin{bmatrix} v^1 \alpha_2 \\ v^2 \alpha_2 \end{bmatrix}   \end{bmatrix} \otimes \begin{bmatrix} w^1 \\ w^2 \end{bmatrix}  $$ 
+$$ = \begin{bmatrix}[2.5] \begin{bmatrix} \begin{bmatrix} v^1 \alpha_1 \\ v^2 \alpha_1 \end{bmatrix} & \begin{bmatrix} v^1 \alpha_2 \\ v^2 \alpha_2 \end{bmatrix} \end{bmatrix} w^1 \\  \begin{bmatrix} \begin{bmatrix} v^1 \alpha_1 \\ v^2 \alpha_1 \end{bmatrix} & \begin{bmatrix} v^1 \alpha_2 \\ v^2 \alpha_2 \end{bmatrix} \end{bmatrix} w^2 \end{bmatrix}   $$ 
+$$ = \begin{bmatrix}[2.5] \begin{bmatrix} \begin{bmatrix} w^1 v^1 \alpha_1 \\ w^1 v^2 \alpha_1 \end{bmatrix} & \begin{bmatrix} w^1 v^1 \alpha_2 \\ w^1 v^2 \alpha_2 \end{bmatrix} \end{bmatrix}  \\  \begin{bmatrix} \begin{bmatrix} w^2 v^1 \alpha_1 \\ w^2 v^2 \alpha_1 \end{bmatrix} & \begin{bmatrix} w^2 v^1 \alpha_2 \\ w^2 v^2 \alpha_2 \end{bmatrix} \end{bmatrix} \end{bmatrix}   $$ 
+
+\section{Relation between Tensor Product and Kronecker Product}
+Tensor Products act on abstract, algebraic tensors while the kronecker product acts on arrays (which in turn might represent tensors).
+
+Tensor product:
+$$ \vec{v} \otimes \alpha = \left( v^i \vec{e_i} \right) \otimes \left( \alpha_j \epsilon^j \right) $$ 
+$$ = v^i \alpha_j \left( \vec{e_i} \otimes \vec{e_j} \right) $$ 
+
+Remember that the quantity, $\vec{e_i} \otimes \vec{e_j}$ represents a sort of unit linear map, so the scalar quantity, $v^i\alpha_j$ represents the entries of some matrix.
+
+Doing the kronecker product gives:
+$$ \begin{bmatrix} v^1 \\ v^2  \end{bmatrix} \otimes \begin{bmatrix} \alpha_1 & \alpha_2 \end{bmatrix}  $$ 
+$$ = \begin{bmatrix} \begin{bmatrix} v^1 \alpha_1 \\ v^2 \alpha_1 \end{bmatrix} & \begin{bmatrix} v^1 \alpha_2 \\ v^2 \alpha_2 \end{bmatrix} \end{bmatrix} $$ 
+
+the kronecker product basically gives an array of arrays which is basically a matrix. We see that components, $v^i \alpha_j $ are the entries that the kronecker product gives. Thus the tensor product and kronecker product are similar, but one acts on the abstract tensor while the other operates on the arrays.
+
+\chapter{Tensors as General Vector/Covector Combinations}
+\section{Review of Tensors Written using Tensor Product}
+Linear Maps
+$$ L = L_j^i \vec{e_i} \epsilon^j = L_j^i \vec{e_i}\otimes \epsilon^j $$ 
+Bilinear Forms:
+$$ \mathcal{B} = \mathcal{B}_{ij} \epsilon^i \epsilon^j  = \mathcal{B}_{ij} \epsilon^i \otimes \epsilon^j$$ 
+
+From these definitions, we can rederive the transformation rules, multiplication formulas, and array shapes.
+
+\section{New Tensors}
+Let's define some new tensors:
+$$ D = D^{ab} \vec{e_a} \vec{e_b} \qquad \left(2,0 \right)-\text{tensor} $$ 
+$$ Q = Q_{jk}^i \vec{e_i} \epsilon^j \epsilon^k \qquad \left(1,2 \right)-\text{tensor} $$ 
+
+\subsection{What are the transformation rules?}
+
+For the $D$ tensor
+$$D = D^{ab} \vec{e_a} \vec{e_b}$$
+$$ D= D^{ab} \left( B_a^i \widetilde{\vec{e_i}} \right) \left( B_b^j \widetilde{\vec{e_j}} \right) $$ 
+$$ D = \left(D^{ab} B_a^i B_b^j\right) \widetilde{\vec{e_i}} \widetilde{\vec{e_j}}  $$ 
+$$ \widetilde{D^{ij}} = D^{ab} B_a^i B_b^j $$ 
+
+Similarly,
+$$ D^{ab} = \widetilde{D^{ij}} F_i^a F_j^b $$ 
+For the $Q$ tensor
+$$ Q = Q_{bc}^a \vec{e_a} \epsilon^b \epsilon^c $$ 
+$$ Q = Q_{bc}^a \left( B_a^i \widetilde{\vec{e_i}} \right) \left( F_j^b \widetilde{\epsilon^j} \right) \left( F_k^c \epsilon^k \right) $$ 
+$$ Q = \left(Q_{bc}^a  B_a^i F_j^b F_k^c\right) \widetilde{\vec{e_i}} \widetilde{\epsilon^j} \epsilon^k $$ 
+$$ \widetilde{Q_{jk}^i}  = Q_{bc}^a B_a^i F_j^b F_k^c$$ 
+
+Similarly,
+$$ Q_{bc}^a  = \widetilde{Q_{jk}^i} F_i^a B_b^j B_c^k$$ 
+
+\subsection{What is the Multiplication Rule for $Q(D)$}
+Writing $Q(D)$ is ambiguous, since there are many ways of applying the covectors to the input vectors:
+
+$$ Q(D) = Q_{jk}^i \vec{e_i}\epsilon^j\epsilon^k\left( D^{ab} \vec{e_a} \vec{e_b} \right) $$ 
+Let the output of $Q(D)$ be a vector, $\vec{w}$ :
+$$ \vec{w} = Q(D) = w^i \vec{e_i} $$ 
+
+\subsubsection{Case $w^i = Q_{jk}^i D^{jk}$:}
+$$ Q(D) = Q_{jk}^i D^{ab} \vec{e_i} \; \epsilon^j \left(\vec{e_a}   \right) \; \epsilon^k \left( \vec{e_b} \right) $$ 
+$$ = Q_{jk}^i D^{ab} \vec{e_i} \delta_a^j \delta_b^k $$ 
+$$ = Q_{jk}^i D^{jk} \vec{e_i} $$ 
+
+\subsubsection{Case $w^i = Q_{jk}^i D^{kj}$:}
+$$ Q(D) = Q_{jk}^i D^{ab} \vec{e_i} \; \epsilon^j \left(\vec{e_b}   \right) \; \epsilon^k \left( \vec{e_a} \right) $$ 
+$$ = Q_{jk}^i D^{ab} \vec{e_i} \delta_b^j \delta_a^k $$ 
+$$ = Q_{jk}^i D^{kj} \vec{e_i} $$ 
+
+\subsubsection{Case $w^i = Q_{jk}^i D^{kb} \vec{e_b} \epsilon^j$:}
+Apply only one of the covectors to one of the input vectors:
+$$ Q(D) = Q_{jk}^i D^{ab} \vec{e_i} \epsilon^j  \vec{e_b} \; \epsilon^k \left(\vec{e_a}   \right)  $$ 
+$$ Q(D) = Q_{jk}^i D^{ab} \vec{e_i} \epsilon^j  \vec{e_b} \delta_a^k  $$ 
+$$ Q(D) = Q_{jk}^i D^{kb} \vec{e_i} \epsilon^j  \vec{e_b} $$ 
+
+\subsubsection{Case $w^i = Q_{jk}^i D^{aj} \vec{e_a} \epsilon^k$:}
+Apply only one of the covectors to one of the input vectors:
+$$ Q(D) = Q_{jk}^i D^{ab} \vec{e_i} \epsilon^k  \vec{e_a} \; \epsilon^j \left(\vec{e_b}   \right)  $$ 
+$$ Q(D) = Q_{jk}^i D^{ab} \vec{e_i} \epsilon^k  \vec{e_a} \delta_b^j   $$ 
+$$ Q(D) = Q_{jk}^i D^{aj} \vec{e_i} \epsilon^k  \vec{e_a} $$ 
+
+There are still more valid ways to do $Q(D)$ as well. Note that in the case of the linear map, there was only one covector acting on one vector input, so there was only one way to write out the multiplication, but this is not the case with $Q(D)$.
+
+\subsection{What are the array shapes for $D$ and $Q$}
+\subsubsection{Shape of Q}
+$$ \begin{bmatrix} v^1 \\ v^1 \end{bmatrix} \otimes \begin{bmatrix} \alpha_1 & \alpha_2 \end{bmatrix} \otimes \begin{bmatrix} \beta_1 & \beta_2 \end{bmatrix}  $$ 
+$$ = \begin{bmatrix} \begin{bmatrix} v^1 \alpha_1 \\ v^2 \alpha_1  \end{bmatrix} & \begin{bmatrix} v^1\alpha_2 \\ v^2 \alpha_2 \end{bmatrix}  \end{bmatrix} \otimes \begin{bmatrix} \beta_1 & \beta_2 \end{bmatrix}   $$ 
+$$ =\begin{bmatrix}  \beta_1 \begin{bmatrix} \begin{bmatrix} v^1 \alpha_1 \\ v^2 \alpha_1  \end{bmatrix} & \begin{bmatrix} v^1\alpha_2 \\ v^2 \alpha_2 \end{bmatrix}  \end{bmatrix} & \beta_2 \begin{bmatrix} \begin{bmatrix} v^1 \alpha_1 \\ v^2 \alpha_1  \end{bmatrix} & \begin{bmatrix} v^1\alpha_2 \\ v^2 \alpha_2 \end{bmatrix}  \end{bmatrix}  \end{bmatrix} $$ 
+$$ =\begin{bmatrix}  \begin{bmatrix} \begin{bmatrix} \beta_1 v^1 \alpha_1 \\ \beta_1 v^2 \alpha_1  \end{bmatrix} & \begin{bmatrix} \beta_1 v^1\alpha_2 \\ \beta_1 v^2 \alpha_2 \end{bmatrix}  \end{bmatrix} & \begin{bmatrix} \begin{bmatrix} \beta_2 v^1 \alpha_1 \\ \beta_2 v^2 \alpha_1  \end{bmatrix} & \begin{bmatrix} \beta_2 v^1\alpha_2 \\ \beta_2 v^2 \alpha_2 \end{bmatrix}  \end{bmatrix}  \end{bmatrix}_{\vec{e_i}\epsilon^j\epsilon^k} $$ 
+
+This is a row of row of column vectors. This can be visualized as a 3d cube, but this causes us to lose information about what type of tensor we have. Since we have 2 row aspects and 1 column aspect, we have a $\left(2, 0  \right)$-tensor
+
+\subsubsection{Shape of D(Q)}
+As shown previously, there is not just one way to interpret $D(Q)$, so there isn't a general way to find the shape of $D(Q)$ with array multiplication. With higher types of tensors, array definition is less useful and it's better to just use einstein notation.
+
+\chapter{Tensor Product Spaces}
+Let $\alpha$ and $\beta$ be covectors. The tensor product has the following rules:
+
+Scaling:
+$$ n\left( \vec{v}\alpha \right) = \left( n \vec{v}\alpha \right) = \vec{v}\left( n \alpha \right) $$ 
+
+Adding:
+$$ \vec{v}\left( \alpha + \beta \right) = \vec{v} \alpha  + \vec{v} \beta$$
+$$ \left(\vec{v} + \vec{w}\right) \alpha = \vec{v} \alpha + \vec{w} \alpha$$
+
+Or for general tensor products between vectors, the above 3 rules can be written as:
+$$ n\left( \vec{a}\vec{b}\vec{c} \vec{d}\right)= \vec{a}\left( n \vec{b} \right) \vec{c}\vec{d} = \vec{a} \vec{b} \left( n \vec{c} \right)\vec{d} = \vec{a}\vec{b}\vec{c} \left( n \vec{d} \right) $$ 
+$$ \vec{a}\left( \vec{b} + \vec{c} \right) = \vec{a} \vec{b}+ \vec{a} \vec{c}$$
+$$ \left(\vec{a} + \vec{b}\right) \vec{c} = \vec{a} \vec{c}+ \vec{b} \vec{c}$$
+
+where $\vec{v}\vec{w} = \vec{v}\otimes \vec{w}$
+ 
+Since we have these scaling and addition rules for tensors, this means that tensors form a vector space.
+
+Review of vector spaces we know:
+$$ \vec{v}, \vec{w}, \vec{e_1}, \vec{e_2} \in V $$ 
+$$ \alpha, \beta, \epsilon^1, \epsilon^2 \in V^* $$ 
+
+This implies that
+$$ \vec{v}\alpha, \vec{w}\beta, L_j^i \vec{e_i} \epsilon^j \in V \otimes V^* $$ 
+$$\vec{a}\vec{b} \vec{c} \in V \otimes V \otimes V$$ 
+
+Note that this symbol, $\otimes$, is different that the kronecker product and the tensor product between vectors. The above use of $\otimes$ is the tensor product of \emph{Vector Spaces} and not ordinary vectors/covectors.
+
+\begin{table}[htpb]
+	\centering
+	\caption{Types of tensor elements that are an element of $V \otimes V^*$}
+	\label{tab:vtpv*}
+	\begin{tabular}{|cc|}
+		\hline
+		$L_j^i \vec{e_i} \epsilon^j \in V \otimes V^*$ & (1, 1)-Tensors \\ 
+		\hline
+		$L_j^i v^j = w^i$ & $V \to V$ \\
+		$L_j^i \alpha_i = \beta_j$ & $V^* \to V^*$ \\
+		$L_j^i v^j \alpha_i = s$ & $V \times V^* \to \R$ \\
+		$L_j^i \alpha_i v^j  = s$ & $V^* \times V \to \R$ \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[htpb]
+	\centering
+	\caption{Types of tensor elements that are an element of $V^* \otimes V^*$. Note that the last two entries will have different vector spaces, $V$, for the input and different dual spaces, $V^*$ since they sum over different indices.}
+	\label{tab:v*tpv*}
+	\begin{tabular}{|cc|}
+		\hline
+		$\mathcal{B}_{ij}\epsilon^i \epsilon^i \in V^* \otimes V^*$ & (0, 2)-Tensors \\ 
+		\hline
+		$\mathcal{B}_{ij}v^i w^i = s$ & $V \times  V \to \R$ \\
+		$\mathcal{B}_{ij}v^i = \alpha_j$ & $V  \to V^*$ \\
+		$\mathcal{B}_{ij}v^j = \beta_i$ & $V  \to V^*$ \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[htpb]
+	\centering
+	\caption{Types of tensor elements that are an element of $V^* \otimes V \otimes V^* \otimes V^*$. $T$ is a Multilinear Map}
+	\label{tab:v*tpvtpv*tpv*}
+	\begin{tabular}{|cc|}
+		\hline
+		$T \in V^* \otimes V \otimes V^* \otimes V^*$ & $T = T\indices{_i^j_{kl}} v^i\alpha_j w^k u^l $ \\
+		\hline
+		$T = T\indices{_i^j_{kl}} v^i\alpha_j w^k u^l $ & $V \times V^* \times V \times V \to \R$\\
+		$T = T\indices{_i^j_{kl}} U^{ikl}\beta_j $ & $(V \otimes V \otimes V) \times V^* \to \R$\\
+		$T= T\indices{_i^j_{kl}} \alpha_j D^{kl}$ & $V^* \times \left( V \otimes V \right) \to V^*$  \\
+		$T= T\indices{_i^j_{kl}}L_j^i$ & $\left( V \otimes V^* \right) \to \left(V^* \otimes V^*  \right)$  \\
+		\hline
+	\end{tabular}
+\end{table}
+
+% For Table~\ref{tab:v*tpvtpv*tpv*}, $T$ is a multilinear map.
+
+\dfn{Multilinear Map}{
+A function that is linear when all inputs except one are held constant. All tensors are multilinear maps.
+
+$$ T\left( x_1, x_2, \ldots, nx_i, \ldots, x_n \right) = n T\left( x_1, x_2, \ldots, x_i, \ldots, x_n \right) $$ 
+$$ T\left( x_1, x_2, \ldots, x_i + y_i, \ldots, x_n \right) = T\left( x_1, x_2, \ldots, x_i, \ldots, x_n \right) + T\left( x_1, x_2, \ldots, y_i, \ldots, x_n \right) $$ 
+}
+
+\end{document}
