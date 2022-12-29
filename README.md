@@ -7,7 +7,7 @@
 * `\qs{Question Title}{Description of question}`
 * `\sol`
 * `\clm{Claim Title}{}{Claim Body} `
-* `\ex{Example description}`
+* `\ex{Example description}{Body}`
 * `\thm{Theorem title}{Theorem body}`
 * `\nt{This is a note}`
 * `\cor{Corollary Title}{By the result of the proof, we can then show...}`
